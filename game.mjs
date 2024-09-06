@@ -48,6 +48,7 @@ while (willPlayerContinue == true) {
     let guessedWord = CHAR.EMPTY.padStart(correctWord.length, CHAR.LINE);
     let wrongGuesses = [];
     let wordStorage = [];
+    let confirmedAnswers = [];
     let isGameOver = false;
     let wasGuessCorrect = false;
 
@@ -63,8 +64,11 @@ while (willPlayerContinue == true) {
         if (answer == correctWord) {
             isGameOver = true;
             wasGuessCorrect = true;
-        
         } 
+        else if (confirmedAnswers.includes(answer)) {
+            wordStorage.push(answer);
+            totalWrongGuesses++;
+        }
         else if (ifPlayerGuessed(answer)) {
 
             let org = guessedWord;
@@ -75,6 +79,7 @@ while (willPlayerContinue == true) {
                 if (correctWord[i] == answer) {
                     guessedWord += answer;
                     isCorrect = true;
+                    confirmedAnswers.push(answer);
                 } else {
                     guessedWord += org[i];
                 }
