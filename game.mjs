@@ -1,4 +1,4 @@
-//#region Dont look behind the curtain
+//#region Don´t look behind the curtain
 // Do not worry about the next two lines, they just need to be there. 
 import * as readlinePromises from 'node:readline/promises';
 const rl = readlinePromises.createInterface({ input: process.stdin, output: process.stdout });
@@ -7,7 +7,7 @@ async function askQuestion(question) {
     return await rl.question(question);
 }
 
-//#endregion
+//#end_region
 
 import { ANSI } from './ansi.mjs';
 import { HANGMAN_UI } from './graphics.mjs';
@@ -36,7 +36,7 @@ EXIT_PROMPT: "Enter any key to exit the program: "
 const CHAR = {
 SPACE: " ",
 EMPTY: "",
-UNDERBRACKET: "_",
+LINE: "_",
 }
 
 while (willPlayerContinue == true) {
@@ -45,7 +45,7 @@ while (willPlayerContinue == true) {
     let wordDisplay = CHAR.EMPTY;
     let correctWord = words[getRandomNumber(words.length)];
     const numberOfCharInWord = correctWord.length;
-    let guessedWord = CHAR.EMPTY.padStart(correctWord.length, CHAR.UNDERBRACKET);
+    let guessedWord = CHAR.EMPTY.padStart(correctWord.length, CHAR.LINE);
     let wrongGuesses = [];
     let isGameOver = false;
     let wasGuessCorrect = false;
