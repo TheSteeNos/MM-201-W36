@@ -113,13 +113,13 @@ if (wasGuessCorrect) {
 }
 
 if (wrongGuesses.length == HANGMAN_UI.length - 1) {
-    console.log ("The answer was: " + (ANSI.COLOR.GREEN + correctWord))
-    console.log(ANSI.COLOR.RED + "Game Over!")
+    console.log ("The answer was: " + (ANSI.COLOR.GREEN + correctWord));
+    console.log(ANSI.COLOR.RED + "Game Over!" + ANSI.RESET);
 }
 
-const answer = (await askQuestion("Want to play again? Enter y for yes, or n for no: "))
+const answer = (await askQuestion("Want to play again? Enter 1 for yes, or 2 for no: "));
 
 
 function ifPlayerGuessedLetter(answer) {
-    return answer.length == 1
+    return answer.length == 1;
 }
