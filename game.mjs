@@ -64,7 +64,8 @@ while (willPlayerContinue == true) {
             isGameOver = true;
             wasGuessCorrect = true;
         
-        } else if (ifPlayerGuessed(answer)) {
+        } 
+        else if (ifPlayerGuessed(answer)) {
 
             let org = guessedWord;
             guessedWord = CHAR.EMPTY;
@@ -120,6 +121,9 @@ while (willPlayerContinue == true) {
         willPlayerContinue = true;
     }
     else if (answer == PLAYER_PROMPTS_AND_INFO.PLAYER_DENY) {
+        willPlayerContinue = false;
+    }
+    else {
         willPlayerContinue = false;
     }
 
