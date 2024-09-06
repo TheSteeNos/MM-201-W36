@@ -47,6 +47,7 @@ while (willPlayerContinue == true) {
     const numberOfCharInWord = correctWord.length;
     let guessedWord = CHAR.EMPTY.padStart(correctWord.length, CHAR.LINE);
     let wrongGuesses = [];
+    let wordStorage = [];
     let isGameOver = false;
     let wasGuessCorrect = false;
 
@@ -55,7 +56,7 @@ while (willPlayerContinue == true) {
         console.log(ANSI.CLEAR_SCREEN);
         console.log(drawWordDisplay());
         console.log(listOfWrongGuesses(wrongGuesses, ANSI.COLOR.RED));
-        console.log(HANGMAN_UI[wrongGuesses.length]);
+        console.log(HANGMAN_UI[wrongGuesses.length + wordStorage.length]);
 
         const answer = (await askQuestion(PLAYER_PROMPTS_AND_INFO.GUESS_PROMPT)).toLowerCase();
 
@@ -77,18 +78,22 @@ while (willPlayerContinue == true) {
                     guessedWord += org[i];
                 }
             }
-
-            if (isCorrect == false) {
+            if (wrongGuesses.includes(answer)) {
+                wordStorage.push(answer);
+                totalWrongGuesses++;
+            } 
+            else if (isCorrect == false) {
                 wrongGuesses.push(answer);
                 totalWrongGuesses++;
-            } else if (guessedWord == correctWord) {
+            } 
+            else if (guessedWord == correctWord) {
                 isGameOver = true;
                 wasGuessCorrect = true;
                 totalCompletedPuzzles++;
             }
         }
 
-        if (wrongGuesses.length == HANGMAN_UI.length - 1) {
+        if (wrongGuesses.length + wordStorage.length == HANGMAN_UI.length - 1) {
             isGameOver = true;
         }
 
@@ -97,13 +102,13 @@ while (willPlayerContinue == true) {
     console.log(ANSI.CLEAR_SCREEN);
     console.log(drawWordDisplay());
     console.log(listOfWrongGuesses(wrongGuesses, ANSI.COLOR.RED));
-    console.log(HANGMAN_UI[wrongGuesses.length]);
+    console.log(HANGMAN_UI[wrongGuesses.length + wordStorage.length]);
 
     if (wasGuessCorrect) {
         console.log(ANSI.COLOR.YELLOW + PLAYER_PROMPTS_AND_INFO.WIN + ANSI.RESET);
     }
 
-    if (wrongGuesses.length == HANGMAN_UI.length - 1) {
+    if (wrongGuesses.length + wordStorage.length == HANGMAN_UI.length - 1) {
         console.log (PLAYER_PROMPTS_AND_INFO.ANSWER_REVEAL + (ANSI.COLOR.GREEN + correctWord));
         console.log(ANSI.COLOR.RED + PLAYER_PROMPTS_AND_INFO.GAME_OVER + ANSI.RESET);
     }
