@@ -47,17 +47,17 @@ while (willPlayerContinue == true) {
     const numberOfCharInWord = correctWord.length;
     let guessedWord = CHAR.EMPTY.padStart(correctWord.length, CHAR.LINE);
     let wrongGuesses = [];
-    let wordStorage = [];
-    let confirmedAnswers = [];
+    let confirmedWrongAnswers = [];
+    let confirmedRightAnswers = [];
     let isGameOver = false;
     let wasGuessCorrect = false;
 
     while (isGameOver == false) {
 
         console.log(ANSI.CLEAR_SCREEN);
-        console.log(drawWordDisplay());
+        console.log(summonLetterLines());
         console.log(listOfWrongGuesses(wrongGuesses, ANSI.COLOR.RED));
-        console.log(HANGMAN_UI[wrongGuesses.length + wordStorage.length]);
+        console.log(HANGMAN_UI[wrongGuesses.length + confirmedWrongAnswers.length]);
 
         const answer = (await askQuestion(PLAYER_PROMPTS_AND_INFO.GUESS_PROMPT)).toLowerCase();
 
@@ -65,8 +65,8 @@ while (willPlayerContinue == true) {
             isGameOver = true;
             wasGuessCorrect = true;
         } 
-        else if (confirmedAnswers.includes(answer)) {
-            wordStorage.push(answer);
+        else if (confirmedRightAnswers.includes(answer)) {
+            confirmedWrongAnswers.push(answer);
             totalWrongGuesses++;
         }
         else if (ifPlayerGuessed(answer)) {
@@ -79,13 +79,13 @@ while (willPlayerContinue == true) {
                 if (correctWord[i] == answer) {
                     guessedWord += answer;
                     isCorrect = true;
-                    confirmedAnswers.push(answer);
+                    confirmedRightAnswers.push(answer);
                 } else {
                     guessedWord += org[i];
                 }
             }
             if (wrongGuesses.includes(answer)) {
-                wordStorage.push(answer);
+                confirmedWrongAnswers.push(answer);
                 totalWrongGuesses++;
             } 
             else if (isCorrect == false) {
@@ -99,22 +99,22 @@ while (willPlayerContinue == true) {
             }
         }
 
-        if (wrongGuesses.length + wordStorage.length == HANGMAN_UI.length - 1) {
+        if (wrongGuesses.length + confirmedWrongAnswers.length == HANGMAN_UI.length - 1) {
             isGameOver = true;
         }
 
     }
 
     console.log(ANSI.CLEAR_SCREEN);
-    console.log(drawWordDisplay());
+    console.log(summonLetterLines());
     console.log(listOfWrongGuesses(wrongGuesses, ANSI.COLOR.RED));
-    console.log(HANGMAN_UI[wrongGuesses.length + wordStorage.length]);
+    console.log(HANGMAN_UI[wrongGuesses.length + confirmedWrongAnswers.length]);
 
     if (wasGuessCorrect) {
         console.log(ANSI.COLOR.YELLOW + PLAYER_PROMPTS_AND_INFO.WIN + ANSI.RESET);
     }
 
-    if (wrongGuesses.length + wordStorage.length == HANGMAN_UI.length - 1) {
+    if (wrongGuesses.length + confirmedWrongAnswers.length == HANGMAN_UI.length - 1) {
         console.log (PLAYER_PROMPTS_AND_INFO.ANSWER_REVEAL + (ANSI.COLOR.GREEN + correctWord));
         console.log(ANSI.COLOR.RED + PLAYER_PROMPTS_AND_INFO.GAME_OVER + ANSI.RESET);
     }
@@ -152,7 +152,7 @@ while (willPlayerContinue == true) {
         return output + ANSI.RESET;
     }
     
-    function drawWordDisplay() {
+    function summonLetterLines() {
     
         wordDisplay = "";
     
